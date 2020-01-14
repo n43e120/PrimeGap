@@ -1,0 +1,463 @@
+%% AMS-LaTeX Created with the Wolfram Language : www.wolfram.com
+
+
+\documentclass[twocolumn]{article}%\documentclass{article}
+%\usepackage[utf8]{inputenc}
+%\DeclareUnicodeCharacter{00E4}{\"a}
+%\DeclareUnicodeCharacter{265C}{\rook}
+\usepackage{amsmath, amssymb, graphics, setspace}
+\usepackage{amsthm}
+
+\usepackage{biblatex}
+\addbibresource{texbooks.bib}
+
+\newcommand{\mathsym}[1]{{}}
+\newcommand{\unicode}[1]{{}}
+
+\newcounter{mathematicapage}
+
+\newtheorem{thm}{Theorem}
+\newtheorem{lem}{Lemma}
+\theoremstyle{definition}
+\newtheorem{dfn}{Definition}
+\theoremstyle{remark}
+\newtheorem*{note}{Note}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem*{cor}{Corollary}
+
+\newcommand{\zapf}{\fontfamily{pzc}\selectfont}
+\newcommand{\fontcmtt}{\fontfamily{cmtt}\selectfont}
+\newcommand{\macrocode}[1]{
+	\begin{doublespace}
+		\begingroup
+		\fontfamily{cmtt}
+		\selectfont
+		\noindent #1
+		\par
+		\endgroup
+	\end{doublespace}
+}
+\newcommand{\macrocodecode}[2]{
+	\begin{doublespace}
+	\begingroup
+	\fontfamily{cmtt}
+	\selectfont
+	\noindent In:#1
+	\par
+	\endgroup
+	
+	\begingroup
+	\fontfamily{cmtt}
+	\selectfont
+	\noindent Out:#2
+	\par
+	\endgroup
+	\end{doublespace}
+}
+\usepackage{graphicx}
+\usepackage{listings}
+
+\usepackage{booktabs}
+%\usepackage{IEEEtrantools}
+
+%\usepackage{amssymb}
+%\usepackage{pdfcomment}
+
+\begin{document}
+
+\title{Rooks Sitting in a Primorial Hyperspace Chessboard}
+\author{Zhong Wang (n43e120@163.com)}
+% generates the title
+\maketitle
+% insert the table of contents \tableofcontents
+
+\begin{abstract}
+Unifies prime gap, Goldbach, twin prime and other similar prime problems  with a chessboard model. Quantify prime gap and prove twin prime problem with Dirichlet's theorem.
+\end{abstract}
+
+\subsection*{Prime-Factorizing Arrays}
+\begin{dfn}
+	A \emph{number pair} is two integers, whose sum is equal to $2n$.
+\end{dfn}
+
+For example, there is a number-pair-array in $[0, 2n]$:
+\begin{center}
+	\(\begin{array}{ccccccccccc}
+		0 & 1 & 2 & \dots & n-2 & n-1 & n \\
+		2n & 2n-1 & 2n-2 & \dots & n+2 & n+1 & n \\
+	\end{array}\)
+\end{center}
+
+Obviously, there are total of $n+1$ number pairs in $[0, 2n]$.
+
+\begin{dfn}
+	A \emph{prime pair} is a number pair, for which both members are prime.
+\end{dfn}
+
+For example, suppose $n=10$, so there is 2 prime pairs in number-pair-array:
+
+\begin{center}
+	\(\begin{array}{cc}
+		3 & 7 \\
+		17 & 13 \\
+	\end{array}\)
+\end{center}
+
+\begin{lem}\label{lemColorBall}
+Any integer greater than 1 can be considered a composition of one or more prime factors. The number of same prime factors is irrelevant.
+\end{lem}
+
+\begin{lem}\label{lemDistribute}
+All prime factors are cyclic with constantly equidistant spacing and are distributed in an integral array.
+\end{lem}
+
+\begin{lem}
+	In \([0,2n]\), there are a total of \(\lfloor2n/p\rfloor\) integers with prime factor $p$.
+\end{lem}
+
+Counting, there are a total of \(2n/2\) integers with prime factor 2,
+\(\lfloor2n/3\rfloor\) integers with prime factor 3, etc.
+
+\begin{lem}\label{lemHole}
+There is only a need for every prime factor less than or equal to \(\sqrt{2n}\) to sieve in $[0, 2n]$. Any prime factor greater than \(\sqrt{2n}\) should be considered as a hole in the array.
+\end{lem}
+
+For example, to sieve integral array $[0, 100]$, one only needs prime factors $\{$2,3,5,7$\}$ ($\le\sqrt{100}$).
+\subsection*{Integers Remaining after One Sieve Step}
+
+\begin{lem}
+	After sieving away prime factor $p$, by which $2n$ is divisible, there will be exactly $Round(2n/pq)$ integers with prime factor $q$ among the remainders.
+\end{lem}
+
+For example, after sieving away all integers with prime factor 2 in the integral array $[0, 2n]$, if $2n$ is divisible by 3, there will be exactly $n/3$ integers with prime factor 3 among the remainders. Otherwise, if $2n$ is not divisible by 3, there will be $Round(n/3)$.
+
+\noindent
+Let $p$ be the prime number for sieving. After one sieve step, the remainders will be approximately:
+\begin{equation}\label{1}
+2n - 2n/p
+\end{equation}
+
+\subsection*{Number Pairs Remaining after One Sieve Step}
+
+A number pair is sieved away when one of its member is sieved away. So after one sieve step:
+
+If $2n$ is divisible by $p$, this many number pairs will remain:
+
+\begin{equation}\label{2a}
+n [(p-1)/p]\tag{2a}
+\end{equation}
+
+If $2n$ is not divisible by $p$, it is going to eliminate two pairs at each interval of the prime factor. So this many number pairs will remain:
+
+\begin{equation}\label{2b}
+n [(p-2)/p]\tag{2b}
+\end{equation}
+\setcounter{equation}{2}
+
+\subsection*{Prime Numbers Remaining after All Sieve Steps}
+Deducing from Formula \eqref{1} , by simultaneously sieving by all prime factors less than or equal to \(\sqrt{2n}\), the following is the formula which estimates the number of prime numbers remaining in $(p_{\dot{z}}, 2n]$:
+
+\begin{equation}\label{eq:estimatePrimeNumber}
+f_1(n)=2n[(2-1)/2][(3-1)/3]\dots[(p_{\dot{z}}-1)/p_{\dot{z}}] %-1
+\end{equation}
+
+\subsection*{Prime Pairs Remaining after All Sieve Steps}
+
+Deducing from Formula \eqref{2a} and \eqref{2b}, by simultaneously sieving by all prime factors less than or equal to \(\sqrt{2n}\), the following is the formula which estimates the least number of pairs of holes possibly remaining:
+
+\begin{equation}\label{eq:estimatePrimePair}
+f_2(n)=n[(2-1)/2][(3-2)/3]\dots[(p_{\dot{z}}-2)/p_{\dot{z}}]
+\end{equation}
+
+\begin{note}
+Here let $p_{\dot{z}}$ be the last prime factor less than or equal to \(\sqrt{2n}\) and $2 \le p \le p_{\dot{z}}$. 
+Formula \eqref{eq:estimatePrimePair} does not permit any number pair to remain, for which either member is less than or equal to $p$, and it does not expect $2n$ to be divisible by any prime factor other than 2.
+\end{note}
+\subsection*{Midway Summarizing}
+
+Let $\pi_1(x)$ be the prime-number-counting function and $\pi_2(x)$ be the prime-pair-counting function.
+From above, now we can estimate that
+\begin{equation}
+\pi_1(2n)-\pi_1(\sqrt{2n}) \sim f_1(n)-1
+\end{equation}
+and that
+\begin{equation}
+\pi_2(2n) = \Omega\left(f_2(n)-1\right)
+\end{equation}
+\begin{note}	
+	Here integer division must be used in order to get absolutely lower bound.
+\end{note}
+
+\subsection*{Patternizing to Moiré Pattern}
+
+\begin{lem}\label{lemPatternp}
+Sieving number or number pairs with prime factor $p$ will generate a pattern repeating itself in each interval of length $p$.
+\end{lem}
+\begin{lem}\label{lemPatternAll}
+	Sieving with all prime factors will generate a one-dimension multiple-layer moiré pattern, a super-pattern which combined by all elementary sub-patterns, which repeating itself in every $\mathring{Z}$ length interval.
+\end{lem}
+\subsection*{Expanding Array}
+
+There are not enough elements to complete the full super-pattern except $p_{\dot{z}} \le 3$. 
+In order to do that we need to expand a number-array or a number-pair-array to $\mathring{Z}$ length long. For a number-pair-array it will be like:
+\begin{center}
+	\(\begin{array}{ccccccccccc}
+	n & n+1 & n+2 & ... & n+(\mathring{Z}-1) \\
+	n & n-1 & n-2 & ... & n-(\mathring{Z}-1) \\
+	\end{array}\)
+\end{center}
+\begin{note}	
+	A number pair that either member is negative, which is virtual one, not actual one, only used as a placeholder to continue and complete the super-pattern.
+\end{note}
+
+
+\subsection*{Remainder Sequence}
+
+\begin{dfn}
+	$\overrightarrow{R_n}$ as a remainder sequence or vector whose each component $r_i\equiv n\pmod{p_i}$. Usually $R_n$ is generated by a prime sequence $\{2,3,5,7,...\}$ dividing $n$.
+	\begin{eqnarray*}
+		\overrightarrow{R_n}&=&\{r_1,r_2,r_3,r_4,...\}
+	\end{eqnarray*}
+\end{dfn}
+Let $/$ be integer division operator which takes only quotient. Let M be a matrix that can do a reverse transform  $n\equiv\overrightarrow{R_n}M \pmod{\mathring{Z}}$. Followings are recognizable:	
+\begin{eqnarray*}
+	-1&\equiv&\{-1,-1,...\}M\\
+	0&\equiv&\{0,0,0,...\}M\\
+	1&\equiv&\{1,1,1,...\}M\\
+	2&\equiv&\{0,2,2,...\}M\\
+	3&\equiv&\{1,0,3,...\}M\\
+	\mathring{Z}/2&\equiv&\{1,0,0,...\}M\\
+	\mathring{Z}/2&\equiv&-\mathring{Z}/2
+\end{eqnarray*}
+If $\mathring{Z}$ is odd ($ \mathring{Z}=5\cdot7 ...$), it will has:
+ \begin{eqnarray*}
+ 	\mathring{Z}/2 &\equiv&\{5/2,7/2,...\}M\\
+ 	\mathring{Z}/2&\equiv&-\mathring{Z}/2-1
+ \end{eqnarray*}
+For example:
+\begin{eqnarray*}
+	(5\cdot7)/2&\equiv&\{1,2,2,3\}M\\
+	(5\cdot7\cdot11)/2&\equiv&\{0,0,2,3,5\}M
+\end{eqnarray*}
+
+%\begin{lem}\label{lemN0IncludesEverything}
+%$\mathbb{N}_{0}$ includes every possible remainder combination of a $\overrightarrow{R}$ sequence and each sequence is unique.
+%\end{lem}
+
+
+\subsection*{Moiré Pattern Space and Primorial Hyperspace Chessboard}
+
+\begin{dfn}
+A \emph{Moiré pattern space} is an extended and sieved number-array or number-pair-array where contains every possible remainder sequence, which is a primorial sized hyper parameter space, which is called \emph{chessboard} for short later. For courtesy of brevity, its size is donoted as $\mathring{Z}=p_{\dot{z}}\#=2\cdot3\cdot5\dots p_{\dot{z}}$ and $\dot{z}=\pi(p_{\dot{z}})$.
+\end{dfn}
+
+Analogically sieving by a prime factor sequence is like putting a rook on the chessboard which will causing any piece on its same column or row be eliminated (rook's sight or rook's kill or cover zone).
+
+\subsection*{Gaps in Moiré Pattern Space}
+In following text, there are some term for short.
+
+\emph{Universe} stands for the primorial sized chessboard space which is a finite and free space for rooks to move around freely. Besides the meaning of space, it also includes rooks' count and positions. %A \emph{universe configuration} is the size of chessboard space and how many and where rooks are.
+
+\emph{Picture} stands for the whole picture of the universe which is the whole Moiré pattern image on the chessboard space.
+
+%\emph{Cell} stands for a counterpart component of position vector on the chessboard, dimension in the universe, or element at specific index of the remainder sequence.
+
+\emph{Remaining} stands for the remaining number element or number-pair element on the array or a unmasked position in a Moiré pattern. \emph{Remaining} element and \emph{unmasked} position are synonyms. \emph{Sieved}, \emph{eliminating} and \emph{masked} are synonyms. They are used exchangeably.
+
+%\emph{$\Omega$} stands for the probability count of configurations of, the available position on the chessboard of, or the remainder sequence of the rook or rooks, or the entropy of the universe.
+\begin{dfn}
+	A \emph{gap} denoted as $G$ is a distance between 2 different unmasked positions, in which must be only zero or more masked elements.
+\end{dfn}
+\begin{dfn}
+	The \emph{longest-gap} function denoted as $G^{+}$, $G_{\dot{r}}^{+}$, $G^{+}(\dot{z},\dot{r})$ or customized overload $G_{\dot{r}}^{+}(\{p_a,p_b,p_c,\dots\,p_{\dot{z}}\})$, in which parameter $\dot{z}$ gives the size of chessboard, parameter $\dot{r}$ gives the count of rooks and $+$ indicates that it will retrieves the maximum, the best result from all possible parallel universes.
+\end{dfn}
+\subsubsection*{Boring Universes}
+\begin{equation}
+0 < G < \infty
+\end{equation}
+The universe size must be greater than 1.
+No rook is not allowed, which makes the whole universe is full.
+Rooks must not eliminate every element in the universe, which makes the whole universe is empty. 
+Rooks are not allowed to stack on each other. 
+These cases are legitimate, yet boring, which are eliminated by game rule.
+\subsubsection*{Orders}
+\begin{eqnarray*}
+	G^{+} &<& G^{+}(\dot{z}+1, \dot{r})\\
+	G^{+} &<& G^{+}(\dot{z}, \dot{r}+1)
+\end{eqnarray*}
+Any gap can always be lengthened by masking one of its edges.
+\subsubsection*{Physical Limits}
+\begin{equation}
+1 \le \forall G \le \mathring{Z}
+\end{equation}
+Physically, the shortest length of a gap is 1 which means no gap and any gap can not be longer than its universe.
+\begin{eqnarray*}
+	G_2^{+}(\{5\})-1	&=& 2 \\
+	G_2^{+}(\{5,7\})-1	&=& 2\cdot2\\
+	G_2^{+}(\{  5,7,\dots,p_{\dot{z}}\})-1	&\ge&	2 \cdot (\dot{z}-2) 
+\end{eqnarray*}
+$2 \cdot (\dot{z}-2)+1$ is the lowest value the longest gap can be, which is just effortlessly combining each layer of Moiré pattern.
+\begin{equation*}
+G_2^{+}-1\le\mathring{Z}\cdot(1-\frac{1}{2}\cdot\frac{1}{3}\cdot\frac{3}{5}\cdot\frac{5}{7}\cdot\dots\cdot\frac{p_{\dot{z}}-2}{p_{\dot{z}}})
+\end{equation*}
+which is the total count of all masked elements in entire universe.
+
+
+\subsubsection*{Entropy Limit}
+A universe has to exhaust its entropy or available possible rook configurations to lengthening a gap, until they are depleted. Proof can not be given here.
+
+\subsection*{$G^{+}$ Problems Reduction}
+Followings are essential for $G^{+}$ searching algorithms.
+\subsubsection*{Free Shift Space}
+The picture can be moved along the array but keeps it unchanged by shifting every rook altogether. It reduces $\mathring{Z}$ times search space by fixing the first rook at position 0.
+\subsubsection*{Mirror-Free}
+\begin{eqnarray*}
+	a&\equiv&k\mathring{Z}+a \pmod{p}
+\end{eqnarray*}
+A modulus operation returns the same absolute value but preserves the sign of its operand. It only needs to search half the space when the picture is symmetric by 0. In other words, placing 2 rooks are symmetric by 0 or namely conjugated.
+\subsubsection*{Free Config-Element-Exchange Space}
+The picture is kept unchanged as rooks arbitrarily swap their counterparts.
+In $G_2^{+}$ problem, As long as 2 rooks are conjugated, it reduces $2^{\dot{z}-1}$ times search space by confining each element always positive in one rook configuration.
+ \begin{eqnarray*}
+ 	R_{\textrm{Rook1}}&=&\{a,b,c,\dots\}\\
+ 	R_{\textrm{Rook2}}&=&\{-a,-b,-c,\dots\}
+ \end{eqnarray*}
+\subsubsection*{Lower Dimensions Ignoring}
+In 1-rook situation, $r_1$ dimension can be reduced or ignored, since every remaining number is even or odd.
+In 2-rook situation, both $r_1$ and $r_2$ dimensions can be reduced, since every remaining number is in some same modulus class of 6.
+\begin{eqnarray*}
+	G_1^{+}&=&2 G_1^{+}(\{3,5,7,\dots,p_{\dot{z}}\})\\
+	G_2^{+}&=&6 G_2^{+}(\{  5,7,\dots,p_{\dot{z}}\})
+\end{eqnarray*}
+\begin{table}
+	\centering	
+	\begin{tabular}{lrrrr}
+\toprule
+$\dot{z}$	&$p_{\dot{z}}$	&$G_1^{+}$ &$G_2^{+}$	&$p_{\dot{z}}^2-p_{\dot{z}}$\\
+\midrule
+1	&2	&$\mathring{Z}$&$\mathring{Z}$	&2\\
+2	&3	&4		&$\mathring{Z}$	&6\\
+3	&5	&6 	&18	&20\\
+4	&7	&10 	&30	&42\\
+5	&11	&14 	&66	&110\\
+6 	&13	&22 	&150	&156\\
+7	&17	&26 	&192	&272\\
+8	&19	&34 	&258	&342\\
+9	&23	&38 	&366	&506\\
+\bottomrule
+	\end{tabular}
+	\caption{short table of $G^{+}$}
+\end{table}
+\subsection*{$G_1^{+}$ Problem}
+
+By brutal search, a fixed relation emerges. Taking a closer look, there are always two solution gaps. Their middle elements $\overrightarrow{R_a}$ and $\overrightarrow{R_{-a}}$ look always like this:
+\begin{eqnarray*}
+	\overrightarrow{R_{+a}}&=&\{0,...,0,1,-1\}\\
+	\overrightarrow{R_{-a}}&=&\{0,...,0,-1,1\},
+\end{eqnarray*}
+where $r_{\dot{z}-1}\equiv1\pmod{p_{\dot{z}-1}}$ and $r_{\dot{z}}\equiv-1\pmod{p_{\dot{z}}}$ or vice versa. All other components are 0s.
+For example, in case of $G_1^{+}(7)$,
+\begin{eqnarray*}
+	\overrightarrow{R_{+a}}&=&\{0,0,0,0,0,1,16\}\\
+	\overrightarrow{R_{-a}}&=&\{0,0,0,0,0,12,1\},
+\end{eqnarray*}
+where $16\equiv-1 \pmod{17}$ and $12\equiv-1\pmod{13}$. Their inner-structure is self-explanatory.
+\begin{proof}
+Shift the whole picture $\pm a$ long distance, so that the middle element $a$ will be relocated to 0 and the only rook will be relocated to $\pm a$.
+Obviously, At there the rook can not threaten position
+\begin{equation*}
+p=\{p,\dots,p,0,p\}M
+\end{equation*}, here $p = p_{\dot{z}-1}$. For example, when $p_{\dot{z}}=7$, $\overrightarrow{R_{\pm a}}=\{0, 0, \pm1, \mp1\}$. But  $\overrightarrow{R_5}=\{1, 2, 0, 5\}$ is obviously a blind spot.
+
+Therefore, the length of solution gap sandwiched between $p_{\dot{z}-1}$ and $-p_{\dot{z}-1}$ will be the empirical formula:
+\begin{eqnarray*}
+	G_1^{+} &=& p_{\dot{z}-1}-(-p_{\dot{z}-1})\\
+	G_1^{+} &=& 2p_{\dot{z}-1}
+\end{eqnarray*}
+\end{proof}
+It seems the optimal and the only solution for every case  $\dot{z}>2$. Proof can not be given here.
+
+\subsubsection*{Prime Gap as $G_1^{+}$ Problem}
+In real life, a natural prime factor configuration, number element 1 is remaining as the left edge of the gap, all number elements starting from 2 are sieved away by prime factors $\{2,3,5,\dots,p_{\dot{z}-1}\}$ as the gap valley until $p_{\dot{z}}$ is remaining as the right edge of the gap.
+Deducing from it, we have a theoretical upper bound for prime gap:
+\begin{eqnarray*}
+	p_{\dot{z}}-1 &\le& G_1^{+}(\dot{z}-1)\\
+	p_{\dot{z}} &\le& 1+G_1^{+}(\dot{z}-1)\\
+	p_{\dot{z}} &\le& 1+2p_{\dot{z}-2}\\
+	p_{\dot{z}} - p_{\dot{z}-1} &\le& 1+2p_{\dot{z}-2} - p_{\dot{z}-1}
+\end{eqnarray*}
+\begin{proof}
+$\because \overrightarrow{R_{\pm a}}=\{0,...,0,\pm1,\mp 1\}$, $\therefore  \pm a = k(2\cdot3\cdot5\cdot\dots\cdot p_{\dot{z}-2}), (k\ge1)$. $p_4=7=1+2\cdot p_2$ and $p_5=11=1+2\cdot p_3$.
+But	$\pm a$ is increasing by multiplying follow-up prime numbers, which $p_{\dot{z}-1}+1$ will never catch-up after $p_{\dot{z}}\ge13$,. Therefore, $p_5=11$ is the last prime to be the edge of the longest gap $G_1^{+}$.	
+\end{proof}
+
+
+\subsection*{$G_2^{+}$ Problem}
+There is a obvious empirical domination:
+\begin{equation}\label{thedomination}
+G_2^{+} < p_{\dot{z}}^2-p_{\dot{z}}
+\end{equation}
+which is a life-jacket or defense line holding truth for all 2-rook problems like Goldbach and twin prime problems which are two special cases. It is presumed that there is no linear relation  between two sides, the difference only gets larger as $\dot{z} \rightarrow \infty$. Proof can not be given here.
+
+\subsubsection*{Goldbach Problem as $G_2^{+}$ Problem}
+In Goldbach problem, arbitrary even number $2n$ can be sum of two prime numbers, 
+\begin{equation*}
+2n = p_a + p_b.
+\end{equation*}
+The second rook is placed at $2n$, in order to set each number pair $\{x,2n-x\}$. 
+% Shift $-n$ on both rooks which does not mess up the length of each gap. So, we could consider that the first rook settles at $-n$ and the second rook settles at $n$.
+
+\subsubsection*{A Variant of Goldbach Problem}
+If Formula \eqref{thedomination} is true, arbitrary even number $2n$ can also be difference of two prime numbers,
+\begin{equation*}
+2n = p_a - p_b.
+\end{equation*}
+The second rook is placed at $-2n$, in order to set each number pair $\{x,2n+x\}$. $p_{\dot{z}+1}$ can be any prime number but must be greater than $\sqrt{2n + G_2^{+}(\dot{z})+1}$, in order to sieve away all composite numbers from and leave only prime pair(s) in $(1,G_2^{+}(\dot{z})+1]$.
+
+
+\subsubsection*{Twin Prime Problem as $G_2^{+}$ Problem}
+
+In twin prime problem, the even number $2n=2$,
+\begin{equation*}
+2 = p_a - p_b.
+\end{equation*}
+The second rook is placed at $-2$ (or $2$), in order to set each number pair $\{x,2+x\}$ (or $\{x,-2+x\}$).
+ 
+\subsubsection*{Twin Prime Proof}
+According to Dirichlet's theorem, there are infinitely many primes that are congruent to $r$ modulo $p$. 
+
+In term of chessboard, when $p_{\dot{z}}\rightarrow\infty$, there are infinitely many primes $p_x$ in between $(p_{\dot{z}},p_{\dot{z}}^2]$, evenly distributed in each modulus class above 0 of $p$.
+In term of remainder sequence, if $p_x$ is prime, $0\notin[r_{1},r_{x-1}]$ and $r_{x}=0$. 
+\begin{equation*}
+\overrightarrow{R_{p_x}}=\{\dots,p_x,0,p_x,\dots\}
+\end{equation*}
+If $p_x$ is a twin prime, $\{2,0\}\notin[r_{1},r_{x-2}]$ and $r_{x-1}=2$ (or in another expression $\{-2,0\}\notin[r_{1},r_{x-2}]$ and $r_{x+1}=-2$). 
+\begin{eqnarray*}
+	\overrightarrow{R_{p_x}}&=&\{\dots,p_x,p_x,0,-2,p_x,\dots\}\\
+	\overrightarrow{R_{p_x}}&=&\{\dots,p_x,2,0,p_x,p_x,\dots\}
+\end{eqnarray*}
+
+\begin{proof}
+In twin prime pairs are finite hypothesis, there would always be $p_x \pm 2=kp_y$. Here $p_x$ is considered greater than the last twin prime.  $r_{x-1}$ would never be 2 or always $2\in[r_{1},r_{x-2}]$ and $r_{x+1}$ would never be 2 or always $-2\in[r_{1},r_{x-2}]$.
+These restrictive pattern rules makes many hypothetical void subspace in $\overrightarrow{R_{p_x}}$ parameter space. For example, It drops $p_{z}+2$, the first element from $\overrightarrow{R_{p_x}}$ parameter space, the tip of the corner of the hypercube, if $p_{x}=p_{\dot{z}}+2$. These rules make space uneven, which infringes Dirichlet's theorem.
+\end{proof}
+
+\section*{Conclusion}
+
+Number pairs, prime pairs, remainder sequence, Moiré pattern space, chessboard and longest-gap are coined.
+
+Number element remaining estimating Formula \eqref{eq:estimatePrimeNumber} and Number pair remaining estimating Formula \eqref{eq:estimatePrimePair}.
+
+C and Mathematica programs search for concrete values of $G_1^{+}$ and $G_2^{+}$ in astronomical search space  $C_{\mathring{Z}}^{\dot{r}}$. From that, $G_1^{+}$ emerges and is concluded as an empirical formula, but needs a proof.
+
+$G_2^{+}$ is still a mystery, can not be concluded. Then a domination Formula \eqref{thedomination} is purposed as a life-jack for all 2-rook problems.
+
+Twin prime problem is proven.
+
+%
+%\printbibliography
+%
+\section*{Acknowledgments}
+Thank God for guiding me through everything in my life. Please forgive my poor English, silly and ignorance.
+
+\end{document}
